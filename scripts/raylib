@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+RETURN_DIR=$(pwd)
+
+if [[ ! -d ./raylib ]]; then
+  git clone https://github.com/raysan5/raylib
+fi
+
+cd raylib
+
+emcc -c src/rcore.c -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+emcc -c src/rshapes.c -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+emcc -c src/rtextures.c -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+emcc -c src/rtext.c -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+emcc -c src/rmodels.c -Os -Wall -DPLATFORM_WEB -DGRAPHICS_API_OPENGL_ES2
+emcc -c src/raudio.c -Os -Wall -DPLATFORM_WEB
+
+emar rcs libraylib.a rcore.o rshapes.o rtextures.o rtext.o rmodels.o raudio.o
+
+cd $RETURN_DIR
