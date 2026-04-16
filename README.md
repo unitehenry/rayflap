@@ -6,7 +6,7 @@ A Flappy Bird clone made with raylib.
 
 ### Prerequisites
 
-Make sure you have the following dependencies installed before attempting to build:
+Make sure you have the following dependencies installed before attempting to build.
 
 - `git`
 - `python`
