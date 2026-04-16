@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  echo "Usage: source $0"
+  exit 1
+fi
+
+RETURN_DIR=$(pwd)
+
+if [[ ! -d ./emsdk ]]; then
+  git clone https://github.com/emscripten-core/emsdk.git
+fi
+
+cd emsdk
+
+git pull
+
+./emsdk install latest
+
+./emsdk activate latest
+
+source ./emsdk_env.sh
+
+cd $RETURN_DIR
