@@ -1,9 +1,33 @@
-## C Raylib Flappy Bird
+# C Raylib Flappy Bird
 
-- Decent-sized C project
-- Learn general syntax/ecosystem of C
-- Port to Web Assembly
+A Flappy Bird clone made with raylib.
 
-assets -> assets
-src -> main.c
-Makefile
+## Building this Project
+
+### Prerequisites
+
+Make sure you have the following dependencies installed before attempting to build:
+
+- `git`
+- `python`
+
+### Build Steps
+
+```bash
+# 1. Install emsdk
+source scripts/emsdk
+
+# 2. Compile raylib
+scripts/raylib
+
+# 3. Build the game
+scripts/build
+```
+
+## Running the Game
+
+After running the following command, you can access the game at `http://localhost:8080/game.html`.
+
+```bash
+python -m http.server -d build 8080
+```
