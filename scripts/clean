@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-rm -rf emsdk raylib build
+rm -rf emsdk raylib build include
