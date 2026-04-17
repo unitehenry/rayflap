@@ -1,6 +1,6 @@
 #include "raylib.h"
-#include <stdio.h>
 #include <emscripten/emscripten.h>
+#include <stdio.h>
 
 #define MainLoop emscripten_set_main_loop
 
