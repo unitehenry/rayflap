@@ -14,8 +14,8 @@ void draw(void) {
 
 int main() {
   static const char *title = "rayflap";
-  static const int screenWidth = 480;
-  static const int screenHeight = 720;
+  static const int screenWidth = 640;
+  static const int screenHeight = 960;
 
   InitWindow(screenWidth, screenHeight, title);
 
