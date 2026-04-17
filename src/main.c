@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <emscripten/emscripten.h>
 
+#define MainLoop emscripten_set_main_loop
+
 void draw(void) {
   BeginDrawing();
 
@@ -19,7 +21,7 @@ int main() {
 
   InitWindow(screenWidth, screenHeight, title);
 
-  emscripten_set_main_loop(draw, 60, 1);
+  MainLoop(draw, 60, 1);
 
   return 0;
 }
