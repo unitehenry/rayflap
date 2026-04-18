@@ -23,6 +23,7 @@ void draw_message() {
   }
 
   float centerX = (screenWidth - messageTexture.width) / 2.0f;
+
   float centerY = (screenHeight - messageTexture.height) / 2.0f;
 
   DrawTexture(messageTexture, centerX, centerY, WHITE);
@@ -49,13 +50,13 @@ void draw_bird() {
 
   float centerX = (screenWidth - birdTexture.width) / 2.0f;
 
+  float centerY = (screenHeight - birdTexture.height) / 2.0f;
+
   float messageOffsetY = 0;
 
   if (IsTextureValid(messageTexture)) {
     messageOffsetY = (messageTexture.height - birdTexture.height) / 5.1f;
   }
-
-  float centerY = (screenHeight - birdTexture.height) / 2.0f;
 
   DrawTexture(birdTexture, centerX, centerY + messageOffsetY, WHITE);
 }
