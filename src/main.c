@@ -36,7 +36,8 @@ void draw_background() {
   scroll -= scrollSpeed;
 
   DrawTexture(background_texture, scroll % screenWidth, 0, WHITE);
-  DrawTexture(background_texture, (scroll % screenWidth) + screenWidth, 0, WHITE);
+  DrawTexture(background_texture, (scroll % screenWidth) + screenWidth, 0,
+              WHITE);
 }
 
 void draw(void) {
