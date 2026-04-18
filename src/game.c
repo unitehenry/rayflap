@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include <emscripten/emscripten.h>
-#include <stdio.h>
 #include <math.h>
+#include <stdio.h>
 
 #define MainLoop emscripten_set_main_loop
 
@@ -23,7 +23,8 @@ float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
 
 void draw_message() {
-  if (screen != TITLE) return;
+  if (screen != TITLE)
+    return;
 
   if (!IsTextureValid(messageTexture)) {
     messageTexture = LoadTexture("assets/sprites/message.png");
@@ -45,9 +46,11 @@ void draw_background() {
 
   backgroundScroll -= scrollSpeed;
 
-  DrawTexture(backgroundTexture, (int) fmodf(backgroundScroll, (float) screenWidth), 0, WHITE);
+  DrawTexture(backgroundTexture,
+              (int)fmodf(backgroundScroll, (float)screenWidth), 0, WHITE);
 
-  DrawTexture(backgroundTexture, (int) fmodf(backgroundScroll, (float) screenWidth) + screenWidth, 0,
+  DrawTexture(backgroundTexture,
+              (int)fmodf(backgroundScroll, (float)screenWidth) + screenWidth, 0,
               WHITE);
 }
 
@@ -74,15 +77,19 @@ void draw_base() {
     baseTexture = LoadTexture("assets/sprites/base.png");
   }
 
-  float bottomY = screenHeight - baseTexture.height + (baseTexture.height / 2.0f);
+  float bottomY =
+      screenHeight - baseTexture.height + (baseTexture.height / 2.0f);
 
   static const float scrollSpeed = 1.2f;
 
   baseScroll -= scrollSpeed;
 
-  DrawTexture(baseTexture, (int) fmodf(baseScroll, (float) screenWidth), bottomY, WHITE);
+  DrawTexture(baseTexture, (int)fmodf(baseScroll, (float)screenWidth), bottomY,
+              WHITE);
 
-  DrawTexture(baseTexture, (int) fmodf(baseScroll, (float) screenWidth) + screenWidth, bottomY, WHITE);
+  DrawTexture(baseTexture,
+              (int)fmodf(baseScroll, (float)screenWidth) + screenWidth, bottomY,
+              WHITE);
 }
 
 void draw(void) {
