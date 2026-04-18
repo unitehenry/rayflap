@@ -10,34 +10,34 @@ static const int screenWidth = 288;
 static const int screenHeight = 512;
 
 /* Textures */
-Texture2D background_texture;
-Texture2D message_texture;
+Texture2D backgroundTexture;
+Texture2D messageTexture;
 
 /* Game State */
 int scroll = 0;
 
 void draw_message() {
-  if (!IsTextureValid(message_texture)) {
-    message_texture = LoadTexture("assets/sprites/message.png");
+  if (!IsTextureValid(messageTexture)) {
+    messageTexture = LoadTexture("assets/sprites/message.png");
   }
 
-  float centerX = (screenWidth - message_texture.width) / 2.0f;
-  float centerY = (screenHeight - message_texture.height) / 2.0f;
+  float centerX = (screenWidth - messageTexture.width) / 2.0f;
+  float centerY = (screenHeight - messageTexture.height) / 2.0f;
 
-  DrawTexture(message_texture, centerX, centerY, WHITE);
+  DrawTexture(messageTexture, centerX, centerY, WHITE);
 }
 
 void draw_background() {
-  if (!IsTextureValid(background_texture)) {
-    background_texture = LoadTexture("assets/sprites/background-day.png");
+  if (!IsTextureValid(backgroundTexture)) {
+    backgroundTexture = LoadTexture("assets/sprites/background-day.png");
   }
 
   static const int scrollSpeed = 1;
 
   scroll -= scrollSpeed;
 
-  DrawTexture(background_texture, scroll % screenWidth, 0, WHITE);
-  DrawTexture(background_texture, (scroll % screenWidth) + screenWidth, 0,
+  DrawTexture(backgroundTexture, scroll % screenWidth, 0, WHITE);
+  DrawTexture(backgroundTexture, (scroll % screenWidth) + screenWidth, 0,
               WHITE);
 }
 
