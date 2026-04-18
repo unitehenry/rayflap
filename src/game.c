@@ -15,9 +15,13 @@ Texture2D messageTexture;
 Texture2D birdTexture;
 
 /* Game State */
+typedef enum { TITLE, PLAY } Screen;
+Screen screen = TITLE;
 int scroll = 0;
 
 void draw_message() {
+  if (screen != TITLE) return;
+
   if (!IsTextureValid(messageTexture)) {
     messageTexture = LoadTexture("assets/sprites/message.png");
   }
@@ -54,7 +58,7 @@ void draw_bird() {
 
   float messageOffsetY = 0;
 
-  if (IsTextureValid(messageTexture)) {
+  if (screen == TITLE && IsTextureValid(messageTexture)) {
     messageOffsetY = (messageTexture.height - birdTexture.height) / 5.1f;
   }
 
