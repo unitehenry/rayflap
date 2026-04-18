@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include <emscripten/emscripten.h>
 #include <stdio.h>
+#include <math.h>
 
 #define MainLoop emscripten_set_main_loop
 
@@ -18,8 +19,8 @@ Texture2D baseTexture;
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
 Screen screen = TITLE;
-int backgroundScroll = 0;
-int baseScroll = 0;
+float backgroundScroll = 0.0f;
+float baseScroll = 0.0f;
 
 void draw_message() {
   if (screen != TITLE) return;
@@ -40,13 +41,13 @@ void draw_background() {
     backgroundTexture = LoadTexture("assets/sprites/background-day.png");
   }
 
-  static const int scrollSpeed = 1;
+  static const float scrollSpeed = 0.5f;
 
   backgroundScroll -= scrollSpeed;
 
-  DrawTexture(backgroundTexture, backgroundScroll % screenWidth, 0, WHITE);
+  DrawTexture(backgroundTexture, (int) fmodf(backgroundScroll, (float) screenWidth), 0, WHITE);
 
-  DrawTexture(backgroundTexture, (backgroundScroll % screenWidth) + screenWidth, 0,
+  DrawTexture(backgroundTexture, (int) fmodf(backgroundScroll, (float) screenWidth) + screenWidth, 0,
               WHITE);
 }
 
@@ -75,13 +76,13 @@ void draw_base() {
 
   float bottomY = screenHeight - baseTexture.height + (baseTexture.height / 2.0f);
 
-  static const int scrollSpeed = 1;
+  static const float scrollSpeed = 1.2f;
 
   baseScroll -= scrollSpeed;
 
-  DrawTexture(baseTexture, baseScroll % screenWidth, bottomY, WHITE);
+  DrawTexture(baseTexture, (int) fmodf(baseScroll, (float) screenWidth), bottomY, WHITE);
 
-  DrawTexture(baseTexture, (baseScroll % screenWidth) + screenWidth, bottomY, WHITE);
+  DrawTexture(baseTexture, (int) fmodf(baseScroll, (float) screenWidth) + screenWidth, bottomY, WHITE);
 }
 
 void draw(void) {
