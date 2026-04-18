@@ -5,6 +5,7 @@
 #define MainLoop emscripten_set_main_loop
 
 /* Properties */
+static const char *title = "rayflap";
 static const int screenWidth = 288;
 static const int screenHeight = 512;
 
@@ -51,8 +52,6 @@ void draw(void) {
 }
 
 int main() {
-  static const char *title = "rayflap";
-
   InitWindow(screenWidth, screenHeight, title);
 
   MainLoop(draw, 60, 1);
