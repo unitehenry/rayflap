@@ -13,11 +13,13 @@ static const int screenHeight = 512;
 Texture2D backgroundTexture;
 Texture2D messageTexture;
 Texture2D birdTexture;
+Texture2D baseTexture;
 
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
 Screen screen = TITLE;
-int scroll = 0;
+int backgroundScroll = 0;
+int baseScroll = 0;
 
 void draw_message() {
   if (screen != TITLE) return;
@@ -40,10 +42,11 @@ void draw_background() {
 
   static const int scrollSpeed = 1;
 
-  scroll -= scrollSpeed;
+  backgroundScroll -= scrollSpeed;
 
-  DrawTexture(backgroundTexture, scroll % screenWidth, 0, WHITE);
-  DrawTexture(backgroundTexture, (scroll % screenWidth) + screenWidth, 0,
+  DrawTexture(backgroundTexture, backgroundScroll % screenWidth, 0, WHITE);
+
+  DrawTexture(backgroundTexture, (backgroundScroll % screenWidth) + screenWidth, 0,
               WHITE);
 }
 
@@ -65,10 +68,28 @@ void draw_bird() {
   DrawTexture(birdTexture, centerX, centerY + messageOffsetY, WHITE);
 }
 
+void draw_base() {
+  if (!IsTextureValid(baseTexture)) {
+    baseTexture = LoadTexture("assets/sprites/base.png");
+  }
+
+  float bottomY = screenHeight - baseTexture.height + (baseTexture.height / 2.0f);
+
+  static const int scrollSpeed = 1;
+
+  baseScroll -= scrollSpeed;
+
+  DrawTexture(baseTexture, baseScroll % screenWidth, bottomY, WHITE);
+
+  DrawTexture(baseTexture, (baseScroll % screenWidth) + screenWidth, bottomY, WHITE);
+}
+
 void draw(void) {
   BeginDrawing();
 
   draw_background();
+
+  draw_base();
 
   draw_message();
 
