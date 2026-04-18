@@ -31,3 +31,7 @@ After running the following command, you can access the game at `http://localhos
 ```bash
 python -m http.server -d build 8080
 ```
+
+# Credit
+
+- [Flappy Bird Assets](https://github.com/samuelcust/flappy-bird-assets)
