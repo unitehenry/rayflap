@@ -4,12 +4,15 @@
 
 #define MainLoop emscripten_set_main_loop
 
+/* Properties */
 static const int screenWidth = 288;
 static const int screenHeight = 512;
 
+/* Textures */
 Texture2D background_texture;
 Texture2D message_texture;
 
+/* Game State */
 int scroll = 0;
 
 void draw_message() {
