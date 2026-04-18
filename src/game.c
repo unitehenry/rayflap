@@ -12,6 +12,7 @@ static const int screenHeight = 512;
 /* Textures */
 Texture2D backgroundTexture;
 Texture2D messageTexture;
+Texture2D birdTexture;
 
 /* Game State */
 int scroll = 0;
@@ -41,12 +42,32 @@ void draw_background() {
               WHITE);
 }
 
+void draw_bird() {
+  if (!IsTextureValid(birdTexture)) {
+    birdTexture = LoadTexture("assets/sprites/redbird-downflap.png");
+  }
+
+  float centerX = (screenWidth - birdTexture.width) / 2.0f;
+
+  float messageOffsetY = 0;
+
+  if (IsTextureValid(messageTexture)) {
+    messageOffsetY = (messageTexture.height - birdTexture.height) / 5.1f;
+  }
+
+  float centerY = (screenHeight - birdTexture.height) / 2.0f;
+
+  DrawTexture(birdTexture, centerX, centerY + messageOffsetY, WHITE);
+}
+
 void draw(void) {
   BeginDrawing();
 
   draw_background();
 
   draw_message();
+
+  draw_bird();
 
   EndDrawing();
 }
