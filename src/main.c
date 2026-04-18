@@ -21,6 +21,8 @@ int main() {
 
   InitWindow(screenWidth, screenHeight, title);
 
+  Texture2D texture = LoadTexture("assets/sprites/background-day.png");
+
   MainLoop(draw, 60, 1);
 
   return 0;
