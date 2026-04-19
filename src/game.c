@@ -194,7 +194,7 @@ void reset_bird() {
 }
 
 void collide() {
-  Rectangle collideRects[2] = { baseRect1, baseRect2 };
+  Rectangle collideRects[2] = {baseRect1, baseRect2};
 
   for (int i = 0; i < (sizeof(collideRects) / sizeof(collideRects[0])); i++) {
     Rectangle collideRect = collideRects[i];
