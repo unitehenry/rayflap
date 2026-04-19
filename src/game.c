@@ -33,6 +33,7 @@ char *birdColor = NULL;
 float birdRotate = 0.0f;
 float thrust = 0.0f;
 float gravity = 0.0f;
+int lastCountedPipe = -1;
 int score = 0;
 
 /* Entities */
@@ -349,6 +350,8 @@ void reset() {
   isPaused = false;
   screen = TITLE;
   birdColor = NULL;
+  lastCountedPipe = -1;
+  score = 0;
 }
 
 void input() {
@@ -408,6 +411,13 @@ void update() {
     topPipeRect.x -= scrollSpeed;
     topPipeRect.width = (float)pipeTexture.width;
     topPipeRect.height = (float)pipeTexture.height;
+
+    if (bottomPipeRect.x < (screenWidth / 2.0f)) {
+      if (lastCountedPipe != i) {
+        score++;
+        lastCountedPipe = i;
+      }
+    }
 
     if (topPipeRect.x < offscreenX) {
       Vector2 pipeY = random_pipe_y();
