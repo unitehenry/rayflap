@@ -204,9 +204,9 @@ void draw_score() {
 
   float centerX = (screenWidth - scoreTexture[0].width) / 2.0f;
 
-  float centerY = 0.0f + (scoreTexture[0].height * 1.5f);
+  float scoreY = 0.0f + (scoreTexture[0].height * 1.5f);
 
-  DrawTexture(scoreTexture[0], centerX, centerY, WHITE);
+  DrawTexture(scoreTexture[0], centerX, scoreY, WHITE);
 }
 
 void draw() {
@@ -252,10 +252,7 @@ Vector2 random_pipe_y() {
 
   float topPipeY = pipeY - gap - pipeTexture.height;
 
-  Vector2 pipeVector = {
-      bottomPipeY,
-      topPipeY
-  };
+  Vector2 pipeVector = {bottomPipeY, topPipeY};
 
   return pipeVector;
 }
