@@ -27,9 +27,7 @@ jobs:
       uses: actions/checkout@v6
 
     - name: Make scripts executable
-      run: |
-        ls -l scripts
-        chmod +x scripts/raylib scripts/build
+      run: chmod +x scripts/raylib scripts/build
 
     - name: Install emsdk
       run: source scripts/emsdk
@@ -38,7 +36,9 @@ jobs:
       run: ./scripts/raylib
 
     - name: Build the game
-      run: ./scripts/build
+      run: |
+        source scripts/emsdk
+        ./scripts/build
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v5.0.0
