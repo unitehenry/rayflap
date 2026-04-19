@@ -5,6 +5,7 @@
 #include <time.h>
 
 #define MainLoop emscripten_set_main_loop
+#define SeedRandom srand(time(NULL))
 
 /* Properties */
 static const char *title = "rayflap";
@@ -135,8 +136,7 @@ void update(void) {
 }
 
 int main() {
-  // seed random
-  srand(time(NULL));
+  SeedRandom;
 
   InitWindow(screenWidth, screenHeight, title);
 
