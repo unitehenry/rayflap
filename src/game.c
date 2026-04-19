@@ -77,6 +77,9 @@ void draw_pipes() {
     pipeTexture = LoadTexture("assets/sprites/pipe-green.png");
   }
 
+  if (screen == TITLE)
+    return;
+
   static const float scrollSpeed = 1.2f;
 
   float offscreenX = 0.0f - pipeTexture.width;
@@ -85,14 +88,6 @@ void draw_pipes() {
 
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
     Rectangle pipeRect = pipeRects[i];
-
-    if (screen == TITLE) {
-      pipeRect.x = offscreenX;
-      pipeRect.y = defaultY;
-      pipeRect.width = (float)pipeTexture.width;
-      pipeRect.height = (float)pipeTexture.height;
-      continue;
-    }
 
     if (pipeRect.x < offscreenX) {
       pipeRect.x = screenWidth + pipeTexture.width;
@@ -225,6 +220,26 @@ void draw() {
   EndDrawing();
 }
 
+void reset_pipes() {
+  if (!IsTextureValid(pipeTexture))
+    return;
+
+  float offscreenX = 0.0f - pipeTexture.width;
+
+  float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
+
+  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
+    Rectangle pipeRect = pipeRects[i];
+
+    pipeRect.x = offscreenX;
+    pipeRect.y = defaultY;
+    pipeRect.width = (float)pipeTexture.width;
+    pipeRect.height = (float)pipeTexture.height;
+
+    pipeRects[i] = pipeRect;
+  }
+}
+
 void reset_bird() {
   if (!IsTextureValid(birdTexture))
     return;
@@ -246,18 +261,27 @@ void reset_bird() {
 }
 
 void collide() {
-  Rectangle collideRects[2] = {baseRect1, baseRect2};
+  Rectangle baseRects[2] = {baseRect1, baseRect2};
 
-  for (int i = 0; i < (sizeof(collideRects) / sizeof(collideRects[0])); i++) {
-    Rectangle collideRect = collideRects[i];
+  for (int i = 0; i < (sizeof(baseRects) / sizeof(baseRects[0])); i++) {
+    Rectangle baseRect = baseRects[i];
 
-    if (CheckCollisionRecs(birdRect, collideRect)) {
+    if (CheckCollisionRecs(birdRect, baseRect)) {
+      isPaused = true;
+    }
+  }
+
+  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
+    Rectangle pipeRect = pipeRects[i];
+
+    if (CheckCollisionRecs(birdRect, pipeRect)) {
       isPaused = true;
     }
   }
 }
 
 void reset() {
+  reset_pipes();
   reset_bird();
   isPaused = false;
   screen = TITLE;
@@ -284,6 +308,7 @@ void update() {
   input();
 
   if (screen == TITLE) {
+    reset_pipes();
     reset_bird();
     return;
   }
