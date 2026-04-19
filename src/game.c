@@ -105,7 +105,7 @@ void draw_base() {
               WHITE);
 }
 
-void draw(void) {
+void draw() {
   BeginDrawing();
 
   draw_background();
@@ -119,13 +119,21 @@ void draw(void) {
   EndDrawing();
 }
 
+void update(void) {
+  if (IsMouseButtonReleased(0)) {
+    printf("left click\n");
+  }
+
+  draw();
+}
+
 int main() {
   // seed random
   srand(time(NULL));
 
   InitWindow(screenWidth, screenHeight, title);
 
-  MainLoop(draw, 60, 1);
+  MainLoop(update, 60, 1);
 
   return 0;
 }
