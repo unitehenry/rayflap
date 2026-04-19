@@ -1,4 +1,4 @@
-# C Raylib Flappy Bird
+# Raylib Flappy Bird
 
 A Flappy Bird clone made with raylib.
 
