@@ -36,10 +36,7 @@ float gravity = 0.0f;
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect1 = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect2 = {0, 0, 0.0f, 0.0f};
-Rectangle pipeRects[2] = {
-  {0, 0, 0.0f, 0.0f},
-  {0, 0, 0.0f, 0.0f}
-};
+Rectangle pipeRects[2] = {{0, 0, 0.0f, 0.0f}, {0, 0, 0.0f, 0.0f}};
 
 void draw_message() {
   if (screen != TITLE)
@@ -85,7 +82,8 @@ void draw_pipes() {
     bool topPipe = i % 2 != 0;
 
     Rectangle source = {0, 0, (float)pipeTexture.width,
-                      topPipe ? -(float)pipeTexture.height : (float)pipeTexture.height};
+                        topPipe ? -(float)pipeTexture.height
+                                : (float)pipeTexture.height};
 
     Vector2 origin = {0, 0};
 
