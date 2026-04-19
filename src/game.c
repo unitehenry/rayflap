@@ -24,6 +24,7 @@ Screen screen = TITLE;
 float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
 char *birdColor = NULL;
+Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 
 void draw_message() {
   if (screen != TITLE)
@@ -86,12 +87,14 @@ void draw_bird() {
   Rectangle source = {0, 0, (float)birdTexture.width,
                       (float)birdTexture.height};
 
-  Rectangle dest = {centerX, centerY + messageOffsetY, (float)birdTexture.width,
-                    (float)birdTexture.height};
+  birdRect.x = centerX;
+  birdRect.y = centerY + messageOffsetY;
+  birdRect.width = (float)birdTexture.width;
+  birdRect.height = (float)birdTexture.height;
 
   Vector2 origin = {0, 0};
 
-  DrawTexturePro(birdTexture, source, dest, origin, 0.0f, WHITE);
+  DrawTexturePro(birdTexture, source, birdRect, origin, 0.0f, WHITE);
 }
 
 void draw_base() {
