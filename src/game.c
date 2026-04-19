@@ -2,6 +2,7 @@
 #include <emscripten/emscripten.h>
 #include <math.h>
 #include <stdio.h>
+#include <time.h>
 
 #define MainLoop emscripten_set_main_loop
 
@@ -21,6 +22,7 @@ typedef enum { TITLE, PLAY } Screen;
 Screen screen = TITLE;
 float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
+char* birdColor = NULL;
 
 void draw_message() {
   if (screen != TITLE)
@@ -55,8 +57,18 @@ void draw_background() {
 }
 
 void draw_bird() {
+  if (birdColor == NULL) {
+    char *birdColors[3] = { "red", "blue", "yellow" };
+
+    birdColor = birdColors[rand() % (sizeof(birdColors) / sizeof(birdColors[0]))];
+  }
+
   if (!IsTextureValid(birdTexture)) {
-    birdTexture = LoadTexture("assets/sprites/redbird-downflap.png");
+    char *texturePath;
+
+    asprintf(&texturePath, "assets/sprites/%sbird-downflap.png", birdColor);
+
+    birdTexture = LoadTexture(texturePath);
   }
 
   float centerX = (screenWidth - birdTexture.width) / 2.0f;
@@ -107,6 +119,9 @@ void draw(void) {
 }
 
 int main() {
+  // seed random
+  srand(time(NULL));
+
   InitWindow(screenWidth, screenHeight, title);
 
   MainLoop(draw, 60, 1);
