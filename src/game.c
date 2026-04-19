@@ -23,6 +23,7 @@ Texture2D baseTexture;
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
 Screen screen = TITLE;
+bool isPaused = false;
 float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
 char *birdColor = NULL;
@@ -156,6 +157,11 @@ void draw_base() {
 void draw() {
   BeginDrawing();
 
+  if (isPaused) {
+    EndDrawing();
+    return;
+  }
+
   draw_background();
 
   draw_base();
@@ -187,9 +193,33 @@ void reset_bird() {
   birdRect.height = (float)birdTexture.height;
 }
 
+void collide() {
+  Rectangle collideRects[2] = { baseRect1, baseRect2 };
+
+  for (int i = 0; i < (sizeof(collideRects) / sizeof(collideRects[0])); i++) {
+    Rectangle collideRect = collideRects[i];
+
+    if (CheckCollisionRecs(birdRect, collideRect)) {
+      isPaused = true;
+    }
+  }
+}
+
+void reset() {
+  reset_bird();
+  isPaused = false;
+  screen = TITLE;
+  birdColor = NULL;
+}
+
 void input() {
   if (!IsMouseButtonReleased(0))
     return;
+
+  if (isPaused) {
+    reset();
+    return;
+  }
 
   if (screen == TITLE) {
     screen = PLAY;
@@ -216,6 +246,8 @@ void update() {
     }
     birdRect.y += gravity;
   }
+
+  collide();
 }
 
 void game_loop(void) {
