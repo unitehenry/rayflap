@@ -26,10 +26,12 @@ Screen screen = TITLE;
 float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
 char *birdColor = NULL;
-Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 float birdRotate = 0.0f;
 float thrust = 0.0f;
 float gravity = 0.0f;
+Rectangle birdRect = {0, 0, 0.0f, 0.0f};
+Rectangle baseRect1 = {0, 0, 0.0f, 0.0f};
+Rectangle baseRect2 = {0, 0, 0.0f, 0.0f};
 
 void draw_message() {
   if (screen != TITLE)
@@ -131,12 +133,24 @@ void draw_base() {
 
   baseScroll -= scrollSpeed;
 
-  DrawTexture(baseTexture, (int)fmodf(baseScroll, (float)screenWidth), bottomY,
-              WHITE);
+  Rectangle source = {0, 0, (float)baseTexture.width,
+                      (float)baseTexture.height};
 
-  DrawTexture(baseTexture,
-              (int)fmodf(baseScroll, (float)screenWidth) + screenWidth, bottomY,
-              WHITE);
+  Vector2 origin = {0, 0};
+
+  baseRect1.x = (int)fmodf(baseScroll, (float)screenWidth);
+  baseRect1.y = bottomY;
+  baseRect1.width = (float)baseTexture.width;
+  baseRect1.height = (float)baseTexture.height;
+
+  baseRect2.x = (int)fmodf(baseScroll, (float)screenWidth) + screenWidth;
+  baseRect2.y = bottomY;
+  baseRect2.width = (float)baseTexture.width;
+  baseRect2.height = (float)baseTexture.height;
+
+  DrawTexturePro(baseTexture, source, baseRect1, origin, 0.0f, WHITE);
+
+  DrawTexturePro(baseTexture, source, baseRect2, origin, 0.0f, WHITE);
 }
 
 void draw() {
