@@ -71,15 +71,27 @@ void draw_bird() {
         birdColors[rand() % (sizeof(birdColors) / sizeof(birdColors[0]))];
   }
 
+  static Texture2D downFlapTexture;
+
+  static Texture2D upFlapTexture;
+
   if (!IsTextureValid(birdTexture)) {
     char *texturePath;
 
     asprintf(&texturePath, "assets/sprites/%sbird-downflap.png", birdColor);
 
-    birdTexture = LoadTexture(texturePath);
+    downFlapTexture = LoadTexture(texturePath);
 
-    SetTextureFilter(birdTexture, TEXTURE_FILTER_BILINEAR);
+    SetTextureFilter(downFlapTexture, TEXTURE_FILTER_BILINEAR);
+
+    asprintf(&texturePath, "assets/sprites/%sbird-upflap.png", birdColor);
+
+    upFlapTexture = LoadTexture(texturePath);
+
+    SetTextureFilter(upFlapTexture, TEXTURE_FILTER_BILINEAR);
   }
+
+  birdTexture = thrust > 0 ? downFlapTexture : upFlapTexture;
 
   Rectangle source = {0, 0, (float)birdTexture.width,
                       (float)birdTexture.height};
