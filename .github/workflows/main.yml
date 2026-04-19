@@ -28,7 +28,7 @@ jobs:
 
     - name: Make scripts executable
       run: |
-        ls -l
+        ls -l scripts
         chmod +x scripts/raylib scripts/build
 
     - name: Install emsdk
