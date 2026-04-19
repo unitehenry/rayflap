@@ -93,6 +93,10 @@ void draw_bird() {
 
   birdTexture = thrust > 0 ? downFlapTexture : upFlapTexture;
 
+  if (screen == TITLE) {
+    birdTexture = downFlapTexture;
+  }
+
   Rectangle source = {0, 0, (float)birdTexture.width,
                       (float)birdTexture.height};
 
