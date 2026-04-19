@@ -27,7 +27,9 @@ jobs:
       uses: actions/checkout@v6
 
     - name: Make scripts executable
-      run: chmod +x scripts/raylib scripts/build
+      run: |
+        ls -l
+        chmod +x scripts/raylib scripts/build
 
     - name: Install emsdk
       run: source scripts/emsdk
