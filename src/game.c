@@ -26,6 +26,8 @@ Texture2D scoreTexture[10];
 
 /* Sounds */
 Sound pointSound;
+Sound hitSound;
+Sound wingSound;
 
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
@@ -55,10 +57,15 @@ void init_audio() {
   InitAudioDevice();
 
   pointSound = LoadSound("assets/audio/point.ogg");
+  hitSound = LoadSound("assets/audio/hit.ogg");
+  wingSound = LoadSound("assets/audio/wing.ogg");
 }
 
 void play_sound(Sound sound) {
   if (!IsSoundValid(sound))
+    return;
+
+  if (isPaused)
     return;
 
   PlaySound(sound);
@@ -348,6 +355,7 @@ void collide() {
     Rectangle baseRect = baseRects[i];
 
     if (CheckCollisionRecs(birdRect, baseRect)) {
+      play_sound(hitSound);
       isPaused = true;
     }
   }
@@ -356,6 +364,7 @@ void collide() {
     Rectangle pipeRect = pipeRects[i];
 
     if (CheckCollisionRecs(birdRect, pipeRect)) {
+      play_sound(hitSound);
       isPaused = true;
     }
   }
