@@ -5,8 +5,22 @@ on:
     branches: [ main ]
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Make scripts executable
+        run: chmod +x scripts/lint
+
+      - name: Check linter
+        run: scripts/lint
+
   build:
     runs-on: ubuntu-latest
+    needs: [check]
 
     steps:
     - name: Checkout
