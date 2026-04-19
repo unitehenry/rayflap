@@ -12,6 +12,7 @@ static const char *title = "rayflap";
 static const int screenWidth = 288;
 static const int screenHeight = 512;
 static const int maxGravity = 3;
+static const int maxBirdRotate = 15.0f;
 
 /* Textures */
 Texture2D backgroundTexture;
@@ -26,6 +27,7 @@ float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
 char *birdColor = NULL;
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
+float birdRotate = 0.0f;
 float thrust = 0.0f;
 float gravity = 0.0f;
 
@@ -87,7 +89,15 @@ void draw_bird() {
   float rotate = 0.0f;
 
   if (screen == PLAY) {
-    rotate = thrust > 0 ? -15.0f : 15.0f;
+    if (thrust > 0) {
+      birdRotate += -2.0f;
+      birdRotate = fmax(birdRotate, maxBirdRotate * -1);
+    } else {
+      birdRotate += 2.0f;
+      birdRotate = fmin(birdRotate, maxBirdRotate);
+    }
+
+    rotate = birdRotate;
   }
 
   DrawTexturePro(birdTexture, source, birdRect, origin, rotate, WHITE);
