@@ -220,11 +220,16 @@ Vector2 random_pipe_y() {
   float upperBound = screenHeight - pipeTexture.height + (unit * 8);
 
   float pipeY = lowerBound + fmodf(rand(), (upperBound - lowerBound + 1));
-  ;
+
+  float gap = (unit * 4);
+
+  float bottomPipeY = pipeY;
+
+  float topPipeY = pipeY - gap - pipeTexture.height;
 
   Vector2 pipeVector = {
-      pipeY,                                  // bottom pipe Y
-      pipeY - (unit * 4) - pipeTexture.height // top pipe Y
+      bottomPipeY,
+      topPipeY
   };
 
   return pipeVector;
