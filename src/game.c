@@ -204,7 +204,7 @@ void draw_score() {
 
   float centerX = (screenWidth - scoreTexture[0].width) / 2.0f;
 
-  float centerY = (screenHeight - scoreTexture[0].height) / 2.0f;
+  float centerY = 0.0f + (scoreTexture[0].height * 1.5f);
 
   DrawTexture(scoreTexture[0], centerX, centerY, WHITE);
 }
