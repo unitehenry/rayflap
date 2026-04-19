@@ -2,6 +2,7 @@
 #include <emscripten/emscripten.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include <time.h>
 
 #define MainLoop emscripten_set_main_loop
@@ -32,6 +33,7 @@ char *birdColor = NULL;
 float birdRotate = 0.0f;
 float thrust = 0.0f;
 float gravity = 0.0f;
+int score = 0;
 
 /* Entities */
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
@@ -202,16 +204,22 @@ void draw_score() {
     return;
   }
 
-  int testScore = 123;
-
   char *renderScore;
 
-  asprintf(&renderScore, "%i", testScore);
+  asprintf(&renderScore, "%i", score);
 
   float scoreY = 0.0f + (scoreTexture[0].height * 1.5f);
 
-  for(int i = 0; i < sizeof(renderScore) - 1; i++) {
-    float scoreX = ((screenWidth - scoreTexture[0].width) / 2.0f) + (scoreTexture[0].width * i);
+  int numDigits = strlen(renderScore);
+
+  float digitWidth = scoreTexture[0].width;
+
+  float totalWidth = numDigits * digitWidth;
+
+  float startX = (screenWidth - totalWidth) / 2.0f;
+
+  for(int i = 0; i < numDigits; i++) {
+    float scoreX = startX + (digitWidth * i);
 
     DrawTexture(scoreTexture[renderScore[i] - '0'], scoreX, scoreY, WHITE);
   }
