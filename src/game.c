@@ -207,9 +207,11 @@ void draw() {
   EndDrawing();
 }
 
-void reset_pipes() {
-  if (!IsTextureValid(pipeTexture))
-    return;
+Vector2 random_pipe_y() {
+  if (!IsTextureValid(pipeTexture)) {
+    Vector2 origin = { 0.0f, 0.0f };
+    return origin;
+  }
 
   float unit = screenHeight / 20.0f;
 
@@ -217,16 +219,30 @@ void reset_pipes() {
 
   float upperBound = screenHeight - pipeTexture.height + (unit * 8);
 
+  float pipeY = lowerBound + fmodf(rand(), (upperBound - lowerBound + 1));;
+
+  Vector2 pipeVector = {
+    pipeY, // bottom pipe Y
+    pipeY - (unit * 4) - pipeTexture.height // top pipe Y
+  };
+
+  return pipeVector;
+}
+
+void reset_pipes() {
+  if (!IsTextureValid(pipeTexture))
+    return;
+
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
     float startX = i > 0 ? pipeRects[i - 1].x + screenWidth - pipeTexture.width
                          : (screenWidth + pipeTexture.width);
 
-    float pipeY = lowerBound + fmodf(rand(), (upperBound - lowerBound + 1));;
+    Vector2 pipeY = random_pipe_y();
 
     Rectangle bottomPipeRect = pipeRects[i];
 
     bottomPipeRect.x = startX;
-    bottomPipeRect.y = pipeY;
+    bottomPipeRect.y = pipeY.x;
     bottomPipeRect.width = (float)pipeTexture.width;
     bottomPipeRect.height = (float)pipeTexture.height;
 
@@ -235,7 +251,7 @@ void reset_pipes() {
     Rectangle topPipeRect = pipeRects[i + 1];
 
     topPipeRect.x = startX;
-    topPipeRect.y = pipeY - (unit * 4) - pipeTexture.height;
+    topPipeRect.y = pipeY.y;
     topPipeRect.width = (float)pipeTexture.width;
     topPipeRect.height = (float)pipeTexture.height;
 
@@ -343,12 +359,6 @@ void update() {
     bottomPipeRect.width = (float)pipeTexture.width;
     bottomPipeRect.height = (float)pipeTexture.height;
 
-    if (bottomPipeRect.x < offscreenX) {
-      bottomPipeRect.x = startX;
-    }
-
-    pipeRects[i] = bottomPipeRect;
-
     Rectangle topPipeRect = pipeRects[i + 1];
 
     topPipeRect.x -= scrollSpeed;
@@ -356,9 +366,16 @@ void update() {
     topPipeRect.height = (float)pipeTexture.height;
 
     if (topPipeRect.x < offscreenX) {
+      Vector2 pipeY = random_pipe_y();
+
+      bottomPipeRect.x = startX;
+      bottomPipeRect.y = pipeY.x;
+
       topPipeRect.x = startX;
+      topPipeRect.y = pipeY.y;
     }
 
+    pipeRects[i] = bottomPipeRect;
     pipeRects[i + 1] = topPipeRect;
   }
 
