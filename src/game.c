@@ -37,10 +37,10 @@ Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect1 = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect2 = {0, 0, 0.0f, 0.0f};
 Rectangle pipeRects[4] = {
-  {0, 0, 0.0f, 0.0f},
-  {0, 0, 0.0f, 0.0f},
-  {0, 0, 0.0f, 0.0f},
-  {0, 0, 0.0f, 0.0f},
+    {0, 0, 0.0f, 0.0f},
+    {0, 0, 0.0f, 0.0f},
+    {0, 0, 0.0f, 0.0f},
+    {0, 0, 0.0f, 0.0f},
 };
 
 void draw_message() {
@@ -214,7 +214,8 @@ void reset_pipes() {
   float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
 
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
-    float startX = i > 0 ? pipeRects[i - 1].x + screenWidth - pipeTexture.width : (screenWidth + pipeTexture.width);
+    float startX = i > 0 ? pipeRects[i - 1].x + screenWidth - pipeTexture.width
+                         : (screenWidth + pipeTexture.width);
 
     Rectangle bottomPipeRect = pipeRects[i];
 
@@ -329,8 +330,8 @@ void update() {
   int lastIdx = (sizeof(pipeRects) / sizeof(pipeRects[0])) - 1;
 
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
-    float startX = (i > 0 ? pipeRects[i - 1].x : pipeRects[lastIdx].x)
-      + screenWidth - pipeTexture.width;
+    float startX = (i > 0 ? pipeRects[i - 1].x : pipeRects[lastIdx].x) +
+                   screenWidth - pipeTexture.width;
 
     Rectangle bottomPipeRect = pipeRects[i];
 
@@ -359,7 +360,7 @@ void update() {
     pipeRects[i + 1] = topPipeRect;
   }
 
-  //collide();
+  collide();
 }
 
 void game_loop(void) {
