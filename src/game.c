@@ -22,7 +22,7 @@ typedef enum { TITLE, PLAY } Screen;
 Screen screen = TITLE;
 float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
-char* birdColor = NULL;
+char *birdColor = NULL;
 
 void draw_message() {
   if (screen != TITLE)
@@ -58,9 +58,10 @@ void draw_background() {
 
 void draw_bird() {
   if (birdColor == NULL) {
-    char *birdColors[3] = { "red", "blue", "yellow" };
+    char *birdColors[3] = {"red", "blue", "yellow"};
 
-    birdColor = birdColors[rand() % (sizeof(birdColors) / sizeof(birdColors[0]))];
+    birdColor =
+        birdColors[rand() % (sizeof(birdColors) / sizeof(birdColors[0]))];
   }
 
   if (!IsTextureValid(birdTexture)) {
