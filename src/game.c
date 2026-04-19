@@ -75,6 +75,8 @@ void draw_bird() {
     asprintf(&texturePath, "assets/sprites/%sbird-downflap.png", birdColor);
 
     birdTexture = LoadTexture(texturePath);
+
+    SetTextureFilter(birdTexture, TEXTURE_FILTER_BILINEAR);
   }
 
   Rectangle source = {0, 0, (float)birdTexture.width,
