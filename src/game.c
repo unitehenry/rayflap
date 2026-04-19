@@ -77,7 +77,8 @@ void draw_bird() {
     birdTexture = LoadTexture(texturePath);
   }
 
-  Rectangle source = {0, 0, (float)birdTexture.width, (float)birdTexture.height};
+  Rectangle source = {0, 0, (float)birdTexture.width,
+                      (float)birdTexture.height};
 
   Vector2 origin = {0, 0};
 
