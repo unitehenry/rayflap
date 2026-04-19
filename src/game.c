@@ -20,6 +20,7 @@ Texture2D messageTexture;
 Texture2D birdTexture;
 Texture2D baseTexture;
 Texture2D pipeTexture;
+Texture2D scoreTexture[10];
 
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
@@ -186,6 +187,28 @@ void draw_base() {
   DrawTexturePro(baseTexture, source, baseRect2, origin, 0.0f, WHITE);
 }
 
+void draw_score() {
+  if (screen == TITLE) {
+    return;
+  }
+
+  if (!IsTextureValid(scoreTexture[0])) {
+    for (int i = 0; i < sizeof(scoreTexture) / sizeof(scoreTexture[0]); i++) {
+      char *texturePath;
+
+      asprintf(&texturePath, "assets/sprites/%i.png", i);
+
+      scoreTexture[i] = LoadTexture(texturePath);
+    }
+  }
+
+  float centerX = (screenWidth - scoreTexture[0].width) / 2.0f;
+
+  float centerY = (screenHeight - scoreTexture[0].height) / 2.0f;
+
+  DrawTexture(scoreTexture[0], centerX, centerY, WHITE);
+}
+
 void draw() {
   BeginDrawing();
 
@@ -203,6 +226,8 @@ void draw() {
   draw_message();
 
   draw_bird();
+
+  draw_score();
 
   EndDrawing();
 }
