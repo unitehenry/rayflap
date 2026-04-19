@@ -36,7 +36,8 @@ float gravity = 0.0f;
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect1 = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect2 = {0, 0, 0.0f, 0.0f};
-Rectangle pipeRects[1] = {
+Rectangle pipeRects[2] = {
+  {0, 0, 0.0f, 0.0f},
   {0, 0, 0.0f, 0.0f}
 };
 
@@ -87,6 +88,8 @@ void draw_pipes() {
   float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
 
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
+    bool topPipe = i % 2 != 0;
+
     Rectangle pipeRect = pipeRects[i];
 
     if (pipeRect.x < offscreenX) {
@@ -94,14 +97,14 @@ void draw_pipes() {
     }
 
     pipeRect.x -= scrollSpeed;
-    pipeRect.y = defaultY;
+    pipeRect.y = topPipe ? defaultY - 420 : defaultY;
     pipeRect.width = (float)pipeTexture.width;
     pipeRect.height = (float)pipeTexture.height;
 
     pipeRects[i] = pipeRect;
 
     Rectangle source = {0, 0, (float)pipeTexture.width,
-                      (float)pipeTexture.height};
+                      topPipe ? -(float)pipeTexture.height : (float)pipeTexture.height};
 
     Vector2 origin = {0, 0};
 
@@ -301,7 +304,7 @@ void input() {
     screen = PLAY;
   }
 
-  thrust = 5.0f;
+  thrust = 3.75f;
 }
 
 void update() {
