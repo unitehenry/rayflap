@@ -218,7 +218,7 @@ void draw_score() {
 
   float startX = (screenWidth - totalWidth) / 2.0f;
 
-  for(int i = 0; i < numDigits; i++) {
+  for (int i = 0; i < numDigits; i++) {
     float scoreX = startX + (digitWidth * i);
 
     DrawTexture(scoreTexture[renderScore[i] - '0'], scoreX, scoreY, WHITE);
