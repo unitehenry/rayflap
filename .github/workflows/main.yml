@@ -33,7 +33,9 @@ jobs:
       run: source scripts/emsdk
 
     - name: Compile raylib
-      run: ./scripts/raylib
+      run: |
+        source scripts/emsdk
+        ./scripts/raylib
 
     - name: Build the game
       run: |
