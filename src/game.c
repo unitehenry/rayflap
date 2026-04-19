@@ -74,23 +74,7 @@ void draw_bird() {
     birdTexture = LoadTexture(texturePath);
   }
 
-  float centerX = (screenWidth - birdTexture.width) / 2.0f;
-
-  float centerY = (screenHeight - birdTexture.height) / 2.0f;
-
-  float messageOffsetY = 0;
-
-  if (IsTextureValid(messageTexture)) {
-    messageOffsetY = (messageTexture.height - birdTexture.height) / 5.2f;
-  }
-
-  Rectangle source = {0, 0, (float)birdTexture.width,
-                      (float)birdTexture.height};
-
-  birdRect.x = centerX;
-  birdRect.y = centerY + messageOffsetY;
-  birdRect.width = (float)birdTexture.width;
-  birdRect.height = (float)birdTexture.height;
+  Rectangle source = {0, 0, (float)birdTexture.width, (float)birdTexture.height};
 
   Vector2 origin = {0, 0};
 
@@ -131,17 +115,39 @@ void draw() {
   EndDrawing();
 }
 
-void input() {
-  if (!IsMouseButtonReleased(0))
+void reset_bird() {
+  if (!IsTextureValid(birdTexture))
     return;
 
-  if (screen == TITLE) {
-    screen = PLAY;
+  float centerX = (screenWidth - birdTexture.width) / 2.0f;
+
+  float centerY = (screenHeight - birdTexture.height) / 2.0f;
+
+  float messageOffsetY = 0;
+
+  if (IsTextureValid(messageTexture)) {
+    messageOffsetY = (messageTexture.height - birdTexture.height) / 5.2f;
+  }
+
+  birdRect.x = centerX;
+  birdRect.y = centerY + messageOffsetY;
+  birdRect.width = (float)birdTexture.width;
+  birdRect.height = (float)birdTexture.height;
+}
+
+void update() {
+  if (screen == TITLE)
+    reset_bird();
+
+  if (IsMouseButtonReleased(0)) {
+    if (screen == TITLE) {
+      screen = PLAY;
+    }
   }
 }
 
-void update(void) {
-  input();
+void game_loop(void) {
+  update();
 
   draw();
 }
@@ -151,7 +157,7 @@ int main() {
 
   InitWindow(screenWidth, screenHeight, title);
 
-  MainLoop(update, 60, 1);
+  MainLoop(game_loop, 60, 1);
 
   return 0;
 }
