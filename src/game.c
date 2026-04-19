@@ -78,7 +78,7 @@ void draw_bird() {
 
   float messageOffsetY = 0;
 
-  if (screen == TITLE && IsTextureValid(messageTexture)) {
+  if (IsTextureValid(messageTexture)) {
     messageOffsetY = (messageTexture.height - birdTexture.height) / 5.1f;
   }
 
@@ -119,10 +119,16 @@ void draw() {
   EndDrawing();
 }
 
-void update(void) {
-  if (IsMouseButtonReleased(0)) {
-    printf("left click\n");
+void input() {
+  if (!IsMouseButtonReleased(0)) return;
+
+  if (screen == TITLE) {
+    screen = PLAY;
   }
+}
+
+void update(void) {
+  input();
 
   draw();
 }
