@@ -209,7 +209,7 @@ void draw() {
 
 Vector2 random_pipe_y() {
   if (!IsTextureValid(pipeTexture)) {
-    Vector2 origin = { 0.0f, 0.0f };
+    Vector2 origin = {0.0f, 0.0f};
     return origin;
   }
 
@@ -219,11 +219,12 @@ Vector2 random_pipe_y() {
 
   float upperBound = screenHeight - pipeTexture.height + (unit * 8);
 
-  float pipeY = lowerBound + fmodf(rand(), (upperBound - lowerBound + 1));;
+  float pipeY = lowerBound + fmodf(rand(), (upperBound - lowerBound + 1));
+  ;
 
   Vector2 pipeVector = {
-    pipeY, // bottom pipe Y
-    pipeY - (unit * 4) - pipeTexture.height // top pipe Y
+      pipeY,                                  // bottom pipe Y
+      pipeY - (unit * 4) - pipeTexture.height // top pipe Y
   };
 
   return pipeVector;
