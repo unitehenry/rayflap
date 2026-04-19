@@ -202,11 +202,19 @@ void draw_score() {
     return;
   }
 
-  float centerX = (screenWidth - scoreTexture[0].width) / 2.0f;
+  int testScore = 123;
+
+  char *renderScore;
+
+  asprintf(&renderScore, "%i", testScore);
 
   float scoreY = 0.0f + (scoreTexture[0].height * 1.5f);
 
-  DrawTexture(scoreTexture[0], centerX, scoreY, WHITE);
+  for(int i = 0; i < sizeof(renderScore) - 1; i++) {
+    float scoreX = ((screenWidth - scoreTexture[0].width) / 2.0f) + (scoreTexture[0].width * i);
+
+    DrawTexture(scoreTexture[renderScore[i] - '0'], scoreX, scoreY, WHITE);
+  }
 }
 
 void draw() {
