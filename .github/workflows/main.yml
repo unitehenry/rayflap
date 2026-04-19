@@ -16,7 +16,7 @@ jobs:
         run: chmod +x scripts/lint
 
       - name: Check linter
-        run: scripts/lint
+        run: ./scripts/lint
 
   build:
     runs-on: ubuntu-latest
