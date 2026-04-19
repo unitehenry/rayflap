@@ -36,7 +36,12 @@ float gravity = 0.0f;
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect1 = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect2 = {0, 0, 0.0f, 0.0f};
-Rectangle pipeRects[2] = {{0, 0, 0.0f, 0.0f}, {0, 0, 0.0f, 0.0f}};
+Rectangle pipeRects[4] = {
+  {0, 0, 0.0f, 0.0f},
+  {0, 0, 0.0f, 0.0f},
+  {0, 0, 0.0f, 0.0f},
+  {0, 0, 0.0f, 0.0f},
+};
 
 void draw_message() {
   if (screen != TITLE)
@@ -206,19 +211,28 @@ void reset_pipes() {
   if (!IsTextureValid(pipeTexture))
     return;
 
-  float offscreenX = 0.0f - pipeTexture.width;
-
   float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
 
-  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
-    Rectangle pipeRect = pipeRects[i];
+  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
+    float startX = i > 0 ? pipeRects[i - 1].x + screenWidth - pipeTexture.width : (screenWidth + pipeTexture.width);
 
-    pipeRect.x = offscreenX;
-    pipeRect.y = defaultY;
-    pipeRect.width = (float)pipeTexture.width;
-    pipeRect.height = (float)pipeTexture.height;
+    Rectangle bottomPipeRect = pipeRects[i];
 
-    pipeRects[i] = pipeRect;
+    bottomPipeRect.x = startX;
+    bottomPipeRect.y = defaultY;
+    bottomPipeRect.width = (float)pipeTexture.width;
+    bottomPipeRect.height = (float)pipeTexture.height;
+
+    pipeRects[i] = bottomPipeRect;
+
+    Rectangle topPipeRect = pipeRects[i + 1];
+
+    topPipeRect.x = startX;
+    topPipeRect.y = defaultY;
+    topPipeRect.width = (float)pipeTexture.width;
+    topPipeRect.height = (float)pipeTexture.height;
+
+    pipeRects[i + 1] = topPipeRect;
   }
 }
 
@@ -312,24 +326,40 @@ void update() {
 
   float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
 
-  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
-    bool topPipe = i % 2 != 0;
+  int lastIdx = (sizeof(pipeRects) / sizeof(pipeRects[0])) - 1;
 
-    Rectangle pipeRect = pipeRects[i];
+  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
+    float startX = (i > 0 ? pipeRects[i - 1].x : pipeRects[lastIdx].x)
+      + screenWidth - pipeTexture.width;
 
-    if (pipeRect.x < offscreenX) {
-      pipeRect.x = screenWidth + pipeTexture.width;
+    Rectangle bottomPipeRect = pipeRects[i];
+
+    bottomPipeRect.x -= scrollSpeed;
+    bottomPipeRect.y = defaultY;
+    bottomPipeRect.width = (float)pipeTexture.width;
+    bottomPipeRect.height = (float)pipeTexture.height;
+
+    if (bottomPipeRect.x < offscreenX) {
+      bottomPipeRect.x = startX;
     }
 
-    pipeRect.x -= scrollSpeed;
-    pipeRect.y = topPipe ? defaultY - 420 : defaultY;
-    pipeRect.width = (float)pipeTexture.width;
-    pipeRect.height = (float)pipeTexture.height;
+    pipeRects[i] = bottomPipeRect;
 
-    pipeRects[i] = pipeRect;
+    Rectangle topPipeRect = pipeRects[i + 1];
+
+    topPipeRect.x -= scrollSpeed;
+    topPipeRect.y = defaultY - 420;
+    topPipeRect.width = (float)pipeTexture.width;
+    topPipeRect.height = (float)pipeTexture.height;
+
+    if (topPipeRect.x < offscreenX) {
+      topPipeRect.x = startX;
+    }
+
+    pipeRects[i + 1] = topPipeRect;
   }
 
-  collide();
+  //collide();
 }
 
 void game_loop(void) {
