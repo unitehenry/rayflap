@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+mkdir -p build include
+
+ln -sf ../raylib/src/raylib.h include/raylib.h
+
+emcc -o build/game.html \
+  src/game.c \
+  -Os \
+  -Wall \
+  ./raylib/libraylib.a \
+  -I. \
+  -Iinclude \
+  -L. \
+  -L./raylib/libraylib.a \
+  --preload-file assets \
+  -s USE_GLFW=3 \
+  --shell-file raylib/src/shell.html \
+  -DPLATFORM_WEB
