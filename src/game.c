@@ -19,6 +19,7 @@ Texture2D backgroundTexture;
 Texture2D messageTexture;
 Texture2D birdTexture;
 Texture2D baseTexture;
+Texture2D pipeTexture;
 
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
@@ -30,9 +31,14 @@ char *birdColor = NULL;
 float birdRotate = 0.0f;
 float thrust = 0.0f;
 float gravity = 0.0f;
+
+/* Entities */
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect1 = {0, 0, 0.0f, 0.0f};
 Rectangle baseRect2 = {0, 0, 0.0f, 0.0f};
+Rectangle pipeRects[1] = {
+  {0, 0, 0.0f, 0.0f}
+};
 
 void draw_message() {
   if (screen != TITLE)
@@ -64,6 +70,50 @@ void draw_background() {
   DrawTexture(backgroundTexture,
               (int)fmodf(backgroundScroll, (float)screenWidth) + screenWidth, 0,
               WHITE);
+}
+
+void draw_pipes() {
+  if (!IsTextureValid(pipeTexture)) {
+    pipeTexture = LoadTexture("assets/sprites/pipe-green.png");
+  }
+
+  static const float scrollSpeed = 1.2f;
+
+  float offscreenX = 0.0f - pipeTexture.width;
+
+  float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
+
+  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
+    Rectangle pipeRect = pipeRects[i];
+
+    if (screen == TITLE) {
+      pipeRect.x = offscreenX;
+      pipeRect.y = defaultY;
+      pipeRect.width = (float)pipeTexture.width;
+      pipeRect.height = (float)pipeTexture.height;
+      continue;
+    }
+
+    if (pipeRect.x < offscreenX) {
+      pipeRect.x = screenWidth + pipeTexture.width;
+    }
+
+    pipeRect.x -= scrollSpeed;
+    pipeRect.y = defaultY;
+    pipeRect.width = (float)pipeTexture.width;
+    pipeRect.height = (float)pipeTexture.height;
+
+    pipeRects[i] = pipeRect;
+
+    Rectangle source = {0, 0, (float)pipeTexture.width,
+                      (float)pipeTexture.height};
+
+    Vector2 origin = {0, 0};
+
+    float rotate = 0.0f;
+
+    DrawTexturePro(pipeTexture, source, pipeRect, origin, rotate, WHITE);
+  }
 }
 
 void draw_bird() {
@@ -163,6 +213,8 @@ void draw() {
   }
 
   draw_background();
+
+  draw_pipes();
 
   draw_base();
 
