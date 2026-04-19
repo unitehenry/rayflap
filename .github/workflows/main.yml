@@ -1,0 +1,25 @@
+name: main
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Make scripts executable
+      run: chmod +x scripts/raylib scripts/build
+
+    - name: Install emsdk
+      run: source scripts/emsdk
+
+    - name: Compile raylib
+      run: ./scripts/raylib
+
+    - name: Build the game
+      run: ./scripts/build
