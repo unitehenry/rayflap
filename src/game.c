@@ -211,16 +211,23 @@ void reset_pipes() {
   if (!IsTextureValid(pipeTexture))
     return;
 
-  float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
+  float unit = screenHeight / 20.0f;
+
+  float lowerBound = pipeTexture.height - (unit * 5);
+
+  float upperBound = screenHeight - pipeTexture.height + (unit * 8);
 
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
     float startX = i > 0 ? pipeRects[i - 1].x + screenWidth - pipeTexture.width
                          : (screenWidth + pipeTexture.width);
 
+    // TODO: pick between lowerBound and upperBound
+    float pipeY = 192;
+
     Rectangle bottomPipeRect = pipeRects[i];
 
     bottomPipeRect.x = startX;
-    bottomPipeRect.y = defaultY;
+    bottomPipeRect.y = pipeY;
     bottomPipeRect.width = (float)pipeTexture.width;
     bottomPipeRect.height = (float)pipeTexture.height;
 
@@ -229,7 +236,7 @@ void reset_pipes() {
     Rectangle topPipeRect = pipeRects[i + 1];
 
     topPipeRect.x = startX;
-    topPipeRect.y = defaultY;
+    topPipeRect.y = pipeY - (unit * 4) - pipeTexture.height;
     topPipeRect.width = (float)pipeTexture.width;
     topPipeRect.height = (float)pipeTexture.height;
 
@@ -325,8 +332,6 @@ void update() {
 
   float offscreenX = 0.0f - pipeTexture.width;
 
-  float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
-
   int lastIdx = (sizeof(pipeRects) / sizeof(pipeRects[0])) - 1;
 
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i += 2) {
@@ -336,7 +341,6 @@ void update() {
     Rectangle bottomPipeRect = pipeRects[i];
 
     bottomPipeRect.x -= scrollSpeed;
-    bottomPipeRect.y = defaultY;
     bottomPipeRect.width = (float)pipeTexture.width;
     bottomPipeRect.height = (float)pipeTexture.height;
 
@@ -349,7 +353,6 @@ void update() {
     Rectangle topPipeRect = pipeRects[i + 1];
 
     topPipeRect.x -= scrollSpeed;
-    topPipeRect.y = defaultY - 420;
     topPipeRect.width = (float)pipeTexture.width;
     topPipeRect.height = (float)pipeTexture.height;
 
