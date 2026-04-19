@@ -120,7 +120,8 @@ void draw() {
 }
 
 void input() {
-  if (!IsMouseButtonReleased(0)) return;
+  if (!IsMouseButtonReleased(0))
+    return;
 
   if (screen == TITLE) {
     screen = PLAY;
