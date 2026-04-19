@@ -1,8 +1,4 @@
 
-- Random bird colors
-- Transition TITLE -> PLAY
-- Bird falling
-- Bird flap
 - Bottom pipe
 - Top pipe
 - Pipe intervals
