@@ -393,6 +393,7 @@ void input() {
     screen = PLAY;
   }
 
+  play_sound(wingSound);
   thrust = 3.75f;
 }
 
