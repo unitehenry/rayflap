@@ -11,6 +11,7 @@
 static const char *title = "rayflap";
 static const int screenWidth = 288;
 static const int screenHeight = 512;
+static const int maxGravity = 3;
 
 /* Textures */
 Texture2D backgroundTexture;
@@ -25,6 +26,8 @@ float backgroundScroll = 0.0f;
 float baseScroll = 0.0f;
 char *birdColor = NULL;
 Rectangle birdRect = {0, 0, 0.0f, 0.0f};
+float thrust = 0.0f;
+float gravity = 0.0f;
 
 void draw_message() {
   if (screen != TITLE)
@@ -78,7 +81,13 @@ void draw_bird() {
 
   Vector2 origin = {0, 0};
 
-  DrawTexturePro(birdTexture, source, birdRect, origin, 0.0f, WHITE);
+  float rotate = 0.0f;
+
+  if (screen == PLAY) {
+    rotate = thrust > 0 ? -15.0f : 15.0f;
+  }
+
+  DrawTexturePro(birdTexture, source, birdRect, origin, rotate, WHITE);
 }
 
 void draw_base() {
@@ -135,14 +144,34 @@ void reset_bird() {
   birdRect.height = (float)birdTexture.height;
 }
 
-void update() {
-  if (screen == TITLE)
-    reset_bird();
+void input() {
+  if (!IsMouseButtonReleased(0))
+    return;
 
-  if (IsMouseButtonReleased(0)) {
-    if (screen == TITLE) {
-      screen = PLAY;
+  if (screen == TITLE) {
+    screen = PLAY;
+  }
+
+  thrust = 5.0f;
+}
+
+void update() {
+  input();
+
+  if (screen == TITLE) {
+    reset_bird();
+    return;
+  }
+
+  if (thrust > 0) {
+    thrust -= .1;
+    birdRect.y -= thrust;
+    gravity = 1.0f;
+  } else {
+    if (gravity < maxGravity) {
+      gravity += .1;
     }
+    birdRect.y += gravity;
   }
 }
 
