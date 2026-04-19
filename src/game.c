@@ -221,8 +221,7 @@ void reset_pipes() {
     float startX = i > 0 ? pipeRects[i - 1].x + screenWidth - pipeTexture.width
                          : (screenWidth + pipeTexture.width);
 
-    // TODO: pick between lowerBound and upperBound
-    float pipeY = 192;
+    float pipeY = lowerBound + fmodf(rand(), (upperBound - lowerBound + 1));;
 
     Rectangle bottomPipeRect = pipeRects[i];
 
