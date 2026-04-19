@@ -188,10 +188,6 @@ void draw_base() {
 }
 
 void draw_score() {
-  if (screen == TITLE) {
-    return;
-  }
-
   if (!IsTextureValid(scoreTexture[0])) {
     for (int i = 0; i < sizeof(scoreTexture) / sizeof(scoreTexture[0]); i++) {
       char *texturePath;
@@ -200,6 +196,10 @@ void draw_score() {
 
       scoreTexture[i] = LoadTexture(texturePath);
     }
+  }
+
+  if (screen == TITLE) {
+    return;
   }
 
   float centerX = (screenWidth - scoreTexture[0].width) / 2.0f;
