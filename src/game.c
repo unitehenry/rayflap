@@ -12,7 +12,7 @@ static const char *title = "rayflap";
 static const int screenWidth = 288;
 static const int screenHeight = 512;
 static const int maxGravity = 3;
-static const int maxBirdRotate = 15.0f;
+static const int maxBirdRotate = 20.0f;
 
 /* Textures */
 Texture2D backgroundTexture;
@@ -102,10 +102,10 @@ void draw_bird() {
 
   if (screen == PLAY) {
     if (thrust > 0) {
-      birdRotate += -2.0f;
+      birdRotate += -4.0f;
       birdRotate = fmax(birdRotate, maxBirdRotate * -1);
     } else {
-      birdRotate += 2.0f;
+      birdRotate += 4.0f;
       birdRotate = fmin(birdRotate, maxBirdRotate);
     }
 
