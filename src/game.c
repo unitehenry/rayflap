@@ -80,10 +80,16 @@ void draw_bird() {
   float messageOffsetY = 0;
 
   if (IsTextureValid(messageTexture)) {
-    messageOffsetY = (messageTexture.height - birdTexture.height) / 5.1f;
+    messageOffsetY = (messageTexture.height - birdTexture.height) / 5.2f;
   }
 
-  DrawTexture(birdTexture, centerX, centerY + messageOffsetY, WHITE);
+  Rectangle source = { 0, 0, (float) birdTexture.width, (float) birdTexture.height };
+
+  Rectangle dest = { centerX, centerY + messageOffsetY, (float) birdTexture.width, (float) birdTexture.height };
+
+  Vector2 origin = { 0, 0 };
+
+  DrawTexturePro(birdTexture, source, dest, origin, 0.0f, WHITE);
 }
 
 void draw_base() {
