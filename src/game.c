@@ -81,27 +81,8 @@ void draw_pipes() {
   if (screen == TITLE)
     return;
 
-  static const float scrollSpeed = 1.2f;
-
-  float offscreenX = 0.0f - pipeTexture.width;
-
-  float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
-
   for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
     bool topPipe = i % 2 != 0;
-
-    Rectangle pipeRect = pipeRects[i];
-
-    if (pipeRect.x < offscreenX) {
-      pipeRect.x = screenWidth + pipeTexture.width;
-    }
-
-    pipeRect.x -= scrollSpeed;
-    pipeRect.y = topPipe ? defaultY - 420 : defaultY;
-    pipeRect.width = (float)pipeTexture.width;
-    pipeRect.height = (float)pipeTexture.height;
-
-    pipeRects[i] = pipeRect;
 
     Rectangle source = {0, 0, (float)pipeTexture.width,
                       topPipe ? -(float)pipeTexture.height : (float)pipeTexture.height};
@@ -110,7 +91,7 @@ void draw_pipes() {
 
     float rotate = 0.0f;
 
-    DrawTexturePro(pipeTexture, source, pipeRect, origin, rotate, WHITE);
+    DrawTexturePro(pipeTexture, source, pipeRects[i], origin, rotate, WHITE);
   }
 }
 
@@ -325,6 +306,29 @@ void update() {
       gravity += .1;
     }
     birdRect.y += gravity;
+  }
+
+  static const float scrollSpeed = 1.2f;
+
+  float offscreenX = 0.0f - pipeTexture.width;
+
+  float defaultY = (screenHeight / 2.0f + (pipeTexture.height / 6.0f));
+
+  for (int i = 0; i < sizeof(pipeRects) / sizeof(pipeRects[0]); i++) {
+    bool topPipe = i % 2 != 0;
+
+    Rectangle pipeRect = pipeRects[i];
+
+    if (pipeRect.x < offscreenX) {
+      pipeRect.x = screenWidth + pipeTexture.width;
+    }
+
+    pipeRect.x -= scrollSpeed;
+    pipeRect.y = topPipe ? defaultY - 420 : defaultY;
+    pipeRect.width = (float)pipeTexture.width;
+    pipeRect.height = (float)pipeTexture.height;
+
+    pipeRects[i] = pipeRect;
   }
 
   collide();
