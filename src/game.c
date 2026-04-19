@@ -7,6 +7,7 @@
 
 #define MainLoop emscripten_set_main_loop
 #define SeedRandom srand(time(NULL))
+#define InitAudio init_audio()
 
 /* Properties */
 static const char *title = "rayflap";
@@ -22,6 +23,9 @@ Texture2D birdTexture;
 Texture2D baseTexture;
 Texture2D pipeTexture;
 Texture2D scoreTexture[10];
+
+/* Sounds */
+Sound pointSound;
 
 /* Game State */
 typedef enum { TITLE, PLAY } Screen;
@@ -46,6 +50,19 @@ Rectangle pipeRects[4] = {
     {0, 0, 0.0f, 0.0f},
     {0, 0, 0.0f, 0.0f},
 };
+
+void init_audio() {
+  InitAudioDevice();
+
+  pointSound = LoadSound("assets/audio/point.ogg");
+}
+
+void play_sound(Sound sound) {
+  if (!IsSoundValid(sound))
+    return;
+
+  PlaySound(sound);
+}
 
 void draw_message() {
   if (screen != TITLE)
@@ -414,6 +431,8 @@ void update() {
 
     if (bottomPipeRect.x < (screenWidth / 2.0f)) {
       if (lastCountedPipe != i) {
+        play_sound(pointSound);
+
         score++;
         lastCountedPipe = i;
       }
@@ -446,6 +465,8 @@ int main() {
   SeedRandom;
 
   InitWindow(screenWidth, screenHeight, title);
+
+  InitAudio;
 
   MainLoop(game_loop, 60, 1);
 
